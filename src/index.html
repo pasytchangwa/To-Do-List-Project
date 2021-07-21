@@ -5,18 +5,29 @@
  <meta http-equiv="X-UA-Compatible" content="IE=edge">
  <meta name="viewport" content="width=device-width, initial-scale=1.0">
  <title>List Structure</title>
+ <link rel="stylesheet" href="./style.css">
+ <link href="https://fonts.googleapis.com/icon?family=Material+Icons"
+      rel="stylesheet">
 </head>
 <body>
  <div class="wrapper">
-  <h1 class="title">
-   <span class="main-title">hello</span>
-   <span class="refresh"></span>
-  </h1>
-  <form class="form">
-   <div class="prompt"></div>
-  </form>
-  <ul class="list-items"></ul>
-  <footer class="listt-footer">
+  <header class="header">
+   <h1 class="title">To Do List</h1>
+  <span class="material-icons refresh">
+autorenew
+</span>
+  </header>
+  <main class="content">
+   <form class="form">
+    <input type="text" placeholder="Add to your list" id="item" aria-label="text">
+    <span class="material-icons enter">subdirectory_arrow_left</span>
+   </form>
+   <ul class="list-items">
+ 
+   </ul>
+  </main>
+  <footer class="list-footer">
+   <a href="#" id="clear-btn">Clear all completed</a>
   </footer>
  </div>
  <script src="main.js"></script>
