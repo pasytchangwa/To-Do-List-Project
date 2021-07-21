@@ -142,3 +142,12 @@ img {
   align-items: center;
   font-size: 1.5rem;
 }
+
+.erase {
+  text-decoration: line-through;
+}
+
+.checked {
+  background-color: lime;
+  color: white;
+}
