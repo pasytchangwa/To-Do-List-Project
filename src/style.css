@@ -105,25 +105,31 @@ img {
   padding: 1rem;
 }
 
-.info {
+.infos {
   display: flex;
   align-items: center;
-  text-transform: capitalize;
-  font-size: 1rem;
 }
 
-.delete {
+.handler {
   font-size: 0.8rem;
   color: lightgrey;
   font-weight: bold;
+  cursor: move;
 }
 
-.info > .material-icons {
+.box {
   margin-right: 1rem;
-  font-size: 1rem;
-  color: lightgrey;
   font-weight: bold;
   align-self: center;
+  cursor: pointer;
+  width: 10px;
+}
+
+.list-item-text {
+  text-transform: capitalize;
+  font-size: 1rem;
+  width: 100%;
+  border: none;
 }
 
 .list-footer {
@@ -143,11 +149,15 @@ img {
   font-size: 1.5rem;
 }
 
-.erase {
+.completed {
   text-decoration: line-through;
+  color: rgb(54, 3, 42);
 }
 
-.checked {
-  background-color: lime;
-  color: white;
+.fa-check-circle {
+  margin-right: 1rem;
+  font-size: 1rem;
+  font-weight: bold;
+  align-self: center;
+  cursor: pointer;
 }
