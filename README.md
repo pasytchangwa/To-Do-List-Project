@@ -81,4 +81,6 @@ Give a ⭐️ if you like this project!
 
 - Microverse
 
-## 📝 Licenses
+## 📝 License
+
+Copyright (c) 2021 Pasytchangwa
