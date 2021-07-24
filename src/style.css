@@ -13,6 +13,14 @@ body {
   background-color: white;
 }
 
+.wrapper {
+  overflow-x: hidden;
+  max-width: 55vw;
+  box-shadow: 0 8px 50px rgb(226, 219, 226);
+  margin: auto;
+  align-self: center;
+}
+
 .header {
   display: flex;
   align-items: center;
