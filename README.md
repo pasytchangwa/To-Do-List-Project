@@ -4,7 +4,7 @@
 
 [CLICK HERE]() for the online version
 
-# My To Do List Project: List Structure
+# My To Do List Project
 
 > This project aimed at setting up a simple but yet powerful to do list using ES6 and Webpack.This simple web page will be built using webpack and served by a webpack dev server.
 
