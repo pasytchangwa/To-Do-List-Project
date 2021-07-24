@@ -130,6 +130,7 @@ img {
   font-size: 1rem;
   width: 100%;
   border: none;
+  outline: none;
 }
 
 .list-footer {
