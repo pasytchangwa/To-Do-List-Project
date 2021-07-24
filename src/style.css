@@ -52,6 +52,7 @@ form {
   width: 100%;
   border: none;
   font-size: 20px;
+  outline: none;
 }
 
 .enter-icon {
