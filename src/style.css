@@ -85,6 +85,8 @@ img {
   height: 90%;
   font-size: 1.2rem;
   padding: 1rem;
+  outline: none;
+  background-color: transparent;
 }
 
 #item::placeholder {
