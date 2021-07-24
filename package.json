@@ -16,7 +16,9 @@
   "keywords": [],
   "author": "",
   "license": "ISC",
-  "bugs": {},
+  "bugs": {
+    "url": "https://github.com/pasytchangwa/To-Do-List-Project/issues"
+  },
   "homepage": "https://github.com/pasytchangwa/To-Do-List-Project#readme",
   "devDependencies": {
     "babel-eslint": "^10.1.0",
