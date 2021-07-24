@@ -1,94 +1,136 @@
 // import _ from 'lodash';
 import './style.css';
-import {
-  dragStart,
-  allowDrop,
-  dragEnd,
-  drop,
-  dragEnter,
-  dragLeave,
-} from './drag';
-import statusUpdate from './status';
 
-let listCollection = [];
-
-listCollection = [
-  {
-    description: 'Wash dishes',
-    completed: false,
-    index: 0,
-  },
-  {
-    description: 'cook',
-    completed: false,
-    index: 1,
-  },
-  {
-    description: 'study',
-    completed: false,
-    index: 2,
-  },
-  {
-    description: 'sleep',
-    completed: false,
-    index: 3,
-  },
-];
-const element = document.querySelector('.list-items');
-
-function displayel(lists) {
-  const todoLists = lists
-    .map(
-      (list) => `<li class='list-item' draggable='true' id='${list.index}>
-  <div class='infos><input type='checkbox' class='box' data-id='${list.index}' 
-  ${list.completed ? 'checked' : ''}></input><input type='text' value='${
-  list.description}' data-index='${list.index}' draggable='false' class='list-item-text ${
-  list.completed ? 'completed' : ''}'></div>
-  <span class='material-icons handler' data-id='${list.index}'>
-  more_vert</span></li>`,
-    ).join('');
-  element.innerHTML = todoLists;
-
-  element.addEventListener('dragenter', dragEnter);
-
-  document.querySelectorAll('.list-item').forEach((lt) => {
-    lt.addEventListener('dragstart', dragStart);
-    lt.addEventListener('dragend', dragEnd);
-    lt.addEventListener('dragenter', dragEnter);
-    lt.addEventListener('dragleave', dragLeave);
-    lt.addEventListener('drop', drop);
-    lt.addEventListener('dragover', allowDrop);
-  });
-
-  document.querySelectorAll('.list-item-text').forEach((text) => {
-    text.addEventListener('focus', (event) => {
-      document.querySelectorAll('.list-item').forEach((t) => {
-        t.style.backgroundColor = '#fff';
-      });
-      event.target.parentNode.style.backgroundColor = '#fea';
-    });
-    text.addEventListener('blur', () => {
-      document.querySelectorAll('.list-item').forEach((lt) => {
-        lt.style.backgroundColor = '#fff';
-      });
-    });
-  });
-
-  const boxes = document.querySelectorAll('.box');
-  boxes.forEach((b) => {
-    b.addEventListener('change', statusUpdate);
-  });
-}
-
-window.addEventListener('DOMContentLoaded', () => {
-  if (localStorage.getItem('listCollection')) {
-    listCollection = JSON.parse(localStorage.getItem('listCollection'));
-  } else {
-    localStorage.setItem(
-      'listCollection',
-      JSON.stringify(listCollection.sort((a, b) => +a.index - +b.index)),
-    );
+class CollectedList {
+  constructor() {
+    this.size = 0;
+    this.element = document.querySelector('.list-items');
+    this.listSaved = JSON.parse(localStorage.getItem('listSaved')) || [];
   }
 
-  displayel(listCollection.sort((a, b) => +a.index - +b.index));
+  clearList() {
+    this.listSaved = this.listSaved.filter(
+      (object) => object.completed !== true
+    );
+    localStorage.setItem('listSaved', JSON.stringify(this.listSaved));
+  }
+
+  addIndex() {
+    if (this.listSaved.length < 1) {
+      return this.size;
+    }
+    return this.listSaved[this.listSaved.length - 1].index + 1;
+  }
+
+  addTodo(list) {
+    this.listSaved.push(list);
+    localStorage.setItem('listSaved', JSON.stringify(this.listSaved));
+    this.size += 1;
+  }
+
+  updateList() {
+    let newIndex = 0;
+    this.listSaved = JSON.parse(localStorage.getItem('listSaved')) || [];
+    this.listSaved.forEach((object) => {
+      newIndex += 1;
+      object.index = newIndex;
+    });
+    localStorage.setItem('listSaved', JSON.stringify(this.listSaved));
+  }
+
+  edditTask(e, i) {
+    if (e.key === 'Enter') {
+      this.listSaved[i].description = e.target.innerHTML;
+      localStorage.setItem('listSaved', JSON.stringify(this.listSaved));
+      this.displayAllTodo();
+      e.preventDefault();
+    }
+    e.target.parentNode.children[1].contentEditable = true;
+  }
+
+  deleteTodo(e, i) {
+    this.listSaved.splice(i, 1);
+    localStorage.setItem('listSaved', JSON.stringify(this.listSaved));
+    this.displayAllTodo();
+  }
+
+  displayAllTodo() {
+    this.ul.innerHTML = '';
+    this.updateList();
+
+    this.listSaved.forEach((todo, i) => {
+      const li = document.createElement('li');
+      li.className = 'list-item';
+      li.draggable = 'true';
+      li.addEventListener('dragstart', (e) => {
+        dragAndDrop(e, i);
+      });
+
+      li.addEventListener('dragend', (e) => {
+        dragAndDrop(e, i);
+        this.displayAllTodo();
+      });
+
+      const container = document.createElement('div');
+      container.className = 'infos';
+
+      const box = document.createElement('input');
+      box.type = 'checkbox';
+      box.className = 'box';
+      box.checked = todo.completed;
+      box.addEventListener('change', (e) => {
+        updateStatus(e, i);
+        this.displayAllTodo();
+      });
+
+      const p = document.createElement('p');
+      const index = document.createElement('span');
+      index.className = 'index';
+      const more = document.createElement('span');
+      more.classList.add('material-icons', 'handler');
+      more.innerHTML = 'more_vert';
+      p.addEventListener('click', (e) => {
+        this.edditTodo(e, i);
+      });
+      more.addEventListener('click', (e) => {
+        more.classList.add('delete');
+        more.innerHTML = 'delete_outline';
+        document.querySelector('.delete').addEventListener('click', (e) => {
+          this.deleteTodo(e, i);
+        });
+        this.edditTodo(e, i);
+      });
+
+      p.innerHTML = todo.description;
+      index.innerHTML = todo.index;
+      container.appendChild(box);
+      container.appendChild(p);
+      li.appendChild(container);
+      // li.appendChild(index);
+      li.appendChild(more);
+      this.element.appendChild(li);
+      this.element.addEventListener('dragover', (e) => {
+        dragAndDrop(e, i);
+      });
+    });
+  }
+}
+
+const newList = new CollectedList();
+
+export default function addTodo(v) {
+  newList.addTodo({
+    description: v,
+    completed: false,
+    index: newList.addIndex(),
+  });
+  newList.displayAllTodo();
+}
+
+document.getElementById('clear-btn').addEventListener('click', () => {
+  newList.clearList();
+});
+
+window.addEventListener('load', () => {
+  newList.displayAllTodo();
 });
