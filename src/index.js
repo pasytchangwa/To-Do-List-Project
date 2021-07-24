@@ -1,5 +1,7 @@
 // import _ from 'lodash';
 import './style.css';
+import dragAndDrop from './drag';
+import updateStatus from './updateStatus';
 
 class CollectedList {
   constructor() {
