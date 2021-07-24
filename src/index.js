@@ -1,94 +1,98 @@
 // import _ from 'lodash';
 import './style.css';
+import { mousedown, dragndrop } from './drag';
+import { status, prepopstatus } from './status';
 import {
-  dragStart,
-  allowDrop,
-  dragEnd,
-  drop,
-  dragEnter,
-  dragLeave,
-} from './drag';
-import statusUpdate from './status';
+  removecompleted, removeAll, Duty, edit, removetask,
+} from './todo';
 
-let listCollection = [];
+const form = document.getElementById('form');
+const taskinput = document.querySelector('.taskadder');
+const sync = document.querySelector('.sync');
+const entericon = document.querySelector('.enter-icon');
+const deletecompleted = document.getElementById('delcompleted');
+const list = [];
+let displayedList;
 
-listCollection = [
-  {
-    description: 'Wash dishes',
-    completed: false,
-    index: 0,
-  },
-  {
-    description: 'cook',
-    completed: false,
-    index: 1,
-  },
-  {
-    description: 'study',
-    completed: false,
-    index: 2,
-  },
-  {
-    description: 'sleep',
-    completed: false,
-    index: 3,
-  },
-];
-const element = document.querySelector('.list-items');
-
-function displayel(lists) {
-  const todoLists = lists
-    .map(
-      (list) => `<li class='list-item' draggable='true' id='${list.index}>
-  <div class='infos><input type='checkbox' class='box' data-id='${list.index}' 
-  ${list.completed ? 'checked' : ''}></input><input type='text' value='${
-  list.description}' data-index='${list.index}' draggable='false' class='list-item-text ${
-  list.completed ? 'completed' : ''}'></div>
-  <span class='material-icons handler' data-id='${list.index}'>
-  more_vert</span></li>`,
-    ).join('');
-  element.innerHTML = todoLists;
-
-  element.addEventListener('dragenter', dragEnter);
-
-  document.querySelectorAll('.list-item').forEach((lt) => {
-    lt.addEventListener('dragstart', dragStart);
-    lt.addEventListener('dragend', dragEnd);
-    lt.addEventListener('dragenter', dragEnter);
-    lt.addEventListener('dragleave', dragLeave);
-    lt.addEventListener('drop', drop);
-    lt.addEventListener('dragover', allowDrop);
+const todoList = (arr) => {
+  arr.forEach((element) => {
+    const duties = document.getElementById('duties');
+    // Create task li //
+    duties
+      .appendChild(document.createElement('li'))
+      .setAttribute('id', element.index);
+    const task = document.getElementById(element.index);
+    task.classList.add('task', 'draggable');
+    // Create checkbox //
+    task
+      .appendChild(document.createElement('input'))
+      .setAttribute('id', `${element.index}-checkbox`);
+    const checkbox = document.getElementById(`${element.index}-checkbox`);
+    checkbox.setAttribute('type', 'checkbox');
+    checkbox.classList.add('checkbox');
+    // Create description //
+    task
+      .appendChild(document.createElement('p'))
+      .setAttribute('id', `${element.index}-description`);
+    const description = document.getElementById(`${element.index}-description`);
+    description.classList.add('description');
+    description.innerText = element.description;
+    // Create DragBtn //
+    task
+      .appendChild(document.createElement('i'))
+      .setAttribute('id', `${element.index}-drag`);
+    const dragBtn = document.getElementById(`${element.index}-drag`);
+    dragBtn.classList.add('fas', 'fa-ellipsis-v', 'drag-btn');
+    // create trashcan //
+    task
+      .appendChild(document.createElement('i'))
+      .setAttribute('id', `${element.index}-trash`);
+    const trashBtn = document.getElementById(`${element.index}-trash`);
+    trashBtn.classList.add('far', 'fa-trash-alt', 'trash-btn');
+    // Create add event listeners //
+    mousedown(dragBtn);
   });
+  dragndrop(arr);
+  status(arr);
+  prepopstatus(arr);
+  edit(arr);
+  removetask(arr);
+};
 
-  document.querySelectorAll('.list-item-text').forEach((text) => {
-    text.addEventListener('focus', (event) => {
-      document.querySelectorAll('.list-item').forEach((t) => {
-        t.style.backgroundColor = '#fff';
-      });
-      event.target.parentNode.style.backgroundColor = '#fea';
-    });
-    text.addEventListener('blur', () => {
-      document.querySelectorAll('.list-item').forEach((lt) => {
-        lt.style.backgroundColor = '#fff';
-      });
-    });
-  });
-
-  const boxes = document.querySelectorAll('.box');
-  boxes.forEach((b) => {
-    b.addEventListener('change', statusUpdate);
-  });
-}
-
-window.addEventListener('DOMContentLoaded', () => {
-  if (localStorage.getItem('listCollection')) {
-    listCollection = JSON.parse(localStorage.getItem('listCollection'));
+const retrieve = () => {
+  if (JSON.parse(localStorage.getItem('tasklist'))) {
+    displayedList = JSON.parse(localStorage.getItem('tasklist'));
+    todoList(displayedList);
   } else {
-    localStorage.setItem(
-      'listCollection',
-      JSON.stringify(listCollection.sort((a, b) => +a.index - +b.index)),
-    );
+    displayedList = list;
+    todoList(displayedList);
   }
+};
 
-  displayel(listCollection.sort((a, b) => +a.index - +b.index));
+form.addEventListener('submit', (e) => {
+  e.preventDefault();
+  if (taskinput.value !== '') {
+    const duty = new Duty(taskinput.value);
+    duty.push(displayedList);
+  }
 });
+
+entericon.addEventListener('click', (e) => {
+  e.preventDefault();
+  if (taskinput.value !== '') {
+    const duty = new Duty(taskinput.value);
+    duty.push(displayedList);
+  }
+});
+
+deletecompleted.addEventListener('click', (e) => {
+  e.preventDefault();
+  removecompleted(displayedList);
+});
+
+sync.addEventListener('click', (e) => {
+  e.preventDefault();
+  removeAll(displayedList);
+});
+
+document.addEventListener('load', retrieve());

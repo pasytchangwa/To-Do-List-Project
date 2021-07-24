@@ -1,39 +1,23 @@
-@import url('https://fonts.googleapis.com/css2?family=Source+Sans+Pro:wght@300;400&display=swap');
-
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
+  color: #7f8081;
 }
 
 body {
-  font-family: 'Source Sans Pro', sans-serif;
+  font-family: 'Open Sans', sans-serif;
   font-weight: 300;
   width: 100%;
   height: 100vh;
-  background-color: #fff;
+  background-color: white;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
 }
 
-ul {
-  list-style: none;
-}
-
-a {
-  text-decoration: none;
-}
-
-img {
-  width: 100%;
-  display: block;
-}
-
 .wrapper {
-  display: grid;
-  grid-template-rows: 50px 1fr 50px;
   overflow-x: hidden;
   max-width: 55vw;
   box-shadow: 0 8px 50px rgb(226, 219, 226);
@@ -43,132 +27,87 @@ img {
 
 .header {
   display: flex;
-  justify-content: space-between;
   align-items: center;
-  gap: 0.5rem;
-  border-bottom: 1.5px solid grey;
-  text-transform: capitalize;
+  justify-content: space-between;
+  align-content: center;
+  padding: 20px;
+  border: 1px solid gainsboro;
+  color: #545862;
 }
 
-.header .material-icons {
-  padding: 1rem;
-  font-size: 1rem;
-  color: lightgrey;
-  font-weight: bold;
+.sync {
+  transform: rotate(90deg);
   cursor: pointer;
 }
 
-.title {
-  font-size: 1.3rem;
-  padding: 1rem;
-  text-transform: capitalize;
-}
-
-.content {
+form {
   display: flex;
-  flex-direction: column;
-}
-
-.form {
-  display: flex;
-  justify-content: space-between;
   align-items: center;
-  column-gap: 0.5rem;
-  border-bottom: 1.5px solid grey;
-  height: 2.5rem;
+  justify-content: space-between;
+  align-content: center;
+  padding: 20px;
 }
 
-.form .material-icons {
-  font-size: 1rem;
-  padding: 1rem;
-  color: lightgrey;
-  font-weight: bold;
-  cursor: pointer;
-}
-
-#item {
-  border: none;
+.taskadder {
   width: 100%;
-  height: 90%;
-  font-size: 1.2rem;
-  padding: 1rem;
+  border: none;
+  font-size: 20px;
   outline: none;
-  background-color: transparent;
 }
 
-#item::placeholder {
-  font-style: italic;
-  font-size: 0.9rem;
-}
-
-.list-items {
-  display: flex;
-  flex-direction: column;
-}
-
-.list-item {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  border-bottom: 1.5px solid grey;
-  padding: 1rem;
-}
-
-.infos {
-  display: flex;
-  align-items: center;
-}
-
-.handler {
-  font-size: 0.8rem;
-  color: lightgrey;
+.enter-icon {
+  font-size: 20px;
   font-weight: bold;
+  cursor: pointer;
+}
+
+ul {
+  list-style: none;
+}
+
+li {
+  display: flex;
+  align-items: center;
+  align-content: center;
+  border-top: 1px solid gainsboro;
+  border-bottom: 1px solid gainsboro;
+  padding: 20px;
+  font-size: 20px;
+}
+
+.checkbox {
+  width: 20px;
+  height: 20px;
+  margin: 10px;
+}
+
+li p {
+  width: 100%;
+  margin-left: 5px;
+}
+
+.draggable.dragging {
+  opacity: 0.1;
+  background-color: #7f8081;
+}
+
+.drag-btn {
   cursor: move;
 }
 
-.box {
-  margin-right: 1rem;
-  font-weight: bold;
-  align-self: center;
+.trash-btn {
   cursor: pointer;
-  width: 20px;
+  display: none;
 }
 
-.list-item-text {
-  text-transform: capitalize;
-  font-size: 1rem;
+.editing {
+  background-color: rgb(136, 241, 198);
+}
+
+button {
   width: 100%;
+  height: 10vh;
   border: none;
-  outline: none;
-  background-color: transparent;
-}
-
-.list-footer {
-  background-color: lightslategray;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-.list-footer > a {
-  text-transform: capitalize;
-  color: black;
-  height: 100%;
-  text-align: center;
-  display: flex;
-  align-items: center;
-  font-size: 1.5rem;
-}
-
-.completed {
-  text-decoration: line-through;
-  color: rgb(54, 3, 42);
-}
-
-.fa-check-circle {
-  margin-right: 1rem;
-  font-size: 1rem;
-  font-weight: bold;
-  align-self: center;
+  font-size: 20px;
   cursor: pointer;
 }

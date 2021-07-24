@@ -1,38 +1,33 @@
-let current = null;
-let targetItem = null;
-
-export function dragStart() {
-  current = this;
-  current.classList.add('current-active');
+export function dragndrop(arr) {
+  arr.forEach((element) => {
+    const task = document.getElementById(element.index);
+    task.addEventListener('dragstart', (event) => {
+      event.dataTransfer.setData('index', element.index);
+    });
+    task.addEventListener('drop', (event) => {
+      const draggedIndex = event.dataTransfer.getData('index');
+      const dropIndex = element.index;
+      const dragged = arr[draggedIndex];
+      const drop = arr[dropIndex];
+      // swap
+      arr[draggedIndex] = drop;
+      arr[dropIndex] = dragged;
+      // Update indexes
+      dragged.index = dropIndex;
+      drop.index = draggedIndex;
+      task.setAttribute('draggable', false);
+      window.localStorage.setItem('tasklist', JSON.stringify(arr));
+      window.location.reload();
+    });
+    task.addEventListener('dragover', (event) => {
+      event.preventDefault();
+    });
+  });
 }
 
-export function dragEnd() {
-  current.classList.remove('current-active');
-  current = null;
-}
-
-export function dragEnter(event) {
-  event.preventDefault();
-}
-
-export function dragLeave() {
-  targetItem = null;
-}
-
-export function allowDrop(event) {
-  event.preventDefault();
-}
-
-export function drop(event) {
-  event.preventDefault();
-  targetItem = document.getElementById(event.target.id);
-  current.parentElement.insertBefore(current, targetItem);
-
-  const children = Array.from(current.parentElement.children);
-  const updatedList = children.map((child, index) => ({
-    index,
-    completed: child.checked,
-    description: child.children[1].value,
-  }));
-  localStorage.setItem('listCollection', JSON.stringify(updatedList));
+export function mousedown(element) {
+  const parent = element.parentElement;
+  element.addEventListener('mousedown', () => {
+    parent.setAttribute('draggable', true);
+  });
 }

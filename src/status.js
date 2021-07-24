@@ -1,6 +1,25 @@
-export default function statusUpdate(event) {
-  event.target.nextElementSibling.classList.toggle('completed');
-  const status = JSON.parse(localStorage.getItem('listCollection'));
-  status[event.target.dataset.id].completed = event.target.checked;
-  localStorage.setItem('listCollection', JSON.stringify(status));
+export function status(arr) {
+  arr.forEach((element) => {
+    const checkbox = document.getElementById(`${element.index}-checkbox`);
+    checkbox.addEventListener('change', () => {
+      if (checkbox.checked) {
+        element.completed = true;
+        window.localStorage.setItem('tasklist', JSON.stringify(arr));
+      } else {
+        element.completed = false;
+        window.localStorage.setItem('tasklist', JSON.stringify(arr));
+      }
+    });
+  });
+}
+
+export function prepopstatus(arr) {
+  arr.forEach((element) => {
+    const checkbox = document.getElementById(`${element.index}-checkbox`);
+    if (element.completed === true) {
+      checkbox.checked = true;
+    } else {
+      checkbox.checked = false;
+    }
+  });
 }

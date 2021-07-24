@@ -1,37 +1,26 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
- <meta charset="UTF-8">
- <meta http-equiv="X-UA-Compatible" content="IE=edge">
- <meta name="viewport" content="width=device-width, initial-scale=1.0">
- <title>List Structure</title>
- <link rel="stylesheet" href="./style.css">
- <link href="https://fonts.googleapis.com/icon?family=Material+Icons"
-      rel="stylesheet">
- <link href="/your-path-to-fontawesome/css/all.css" rel="stylesheet">
- <link rel="stylesheet" href="../fontawesome-free-5.15.3-web/css/all.css">
-</head>
-<body>
- <div class="wrapper">
-  <header class="header">
-   <h1 class="title">Today's To Do</h1>
-  <span class="material-icons refresh">
-autorenew
-</span>
-  </header>
-  <main class="content">
-   <form class="form">
-    <input type="text" placeholder="Add to your list" id="item" aria-label="text">
-    <span class="material-icons enter">subdirectory_arrow_left</span>
-   </form>
-   <ul class="list-items">
- 
-   </ul>
-  </main>
-  <footer class="list-footer">
-   <a href="#" id="clear-btn">Clear all completed</a>
-  </footer>
- </div>
- <script src="main.js"></script>
-</body>
-</html>
+ <html lang="en">
+   <head>
+     <meta charset="utf-8" />
+     <meta http-equiv="X-UA-Compatible" content="IE=edge">
+     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Todo List</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.14.0/css/all.min.css"/>
+   </head>
+   <body>
+     <div class="wrapper">
+       <div class="header">
+         <h1>Today's To Do</h1>
+         <i class="fas fa-sync-alt sync"></i>
+       </div>
+       <form id="form">
+        <input type="text" placeholder="Add to your list" id="item" aria-label="text" class="taskadder">
+        <i class="enter-icon">↵</i>
+       </form>
+       <ul class="tasklist" id="duties">
+         
+       </ul>
+       <button id="delcompleted">Clear all completed</button>
+     </div>
+   </body>
+ </html>
