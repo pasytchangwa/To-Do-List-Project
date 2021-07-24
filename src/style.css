@@ -10,7 +10,12 @@ body {
   font-family: 'Source Sans Pro', sans-serif;
   font-weight: 300;
   width: 100%;
-  height: 100%;
+  height: 100vh;
+  background-color: #fff;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 }
 
 ul {
@@ -29,9 +34,11 @@ img {
 .wrapper {
   display: grid;
   grid-template-rows: 50px 1fr 50px;
-  height: 100vh;
   overflow-x: hidden;
-  width: 100vw;
+  max-width: 55vw;
+  box-shadow: 0 8px 50px rgb(226, 219, 226);
+  margin: auto;
+  align-self: center;
 }
 
 .header {
