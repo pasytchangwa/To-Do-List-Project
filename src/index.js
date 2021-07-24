@@ -1,6 +1,6 @@
 // import _ from 'lodash';
 import './style.css';
-import { mousedown, dragndrop } from './dragndrop';
+import { mousedown, dragndrop } from './drag';
 import { status, prepopstatus } from './status';
 import { removecompleted, removeAll, Duty, edit, removetask } from './task';
 
