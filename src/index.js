@@ -2,7 +2,9 @@
 import './style.css';
 import { mousedown, dragndrop } from './drag';
 import { status, prepopstatus } from './status';
-import { removecompleted, removeAll, Duty, edit, removetask } from './task';
+import {
+  removecompleted, removeAll, Duty, edit, removetask,
+} from './todo';
 
 const form = document.getElementById('form');
 const taskinput = document.querySelector('.taskadder');
