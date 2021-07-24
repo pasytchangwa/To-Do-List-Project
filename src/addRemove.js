@@ -1,4 +1,3 @@
-import './style.css';
 import dragAndDrop from './drag';
 import updateStatus from './status';
 
@@ -39,15 +38,17 @@ class CollectedList {
     localStorage.setItem('listSaved', JSON.stringify(this.listSaved));
   }
 
-  edditTask(e, i) {
-    if (e.key === 'Enter') {
-      this.listSaved[i].description = e.target.innerHTML;
-      localStorage.setItem('listSaved', JSON.stringify(this.listSaved));
+  edditTask() {
+    document.querySelector('.enter').addEventListener('click', () => {
+      const toDo = document.querySelector('#item').value;
+      // if the input isn't empty
+      if (toDo) {
+        this.listSaved[i].description = toDo
+        };
+        // add item to localstorage ( this code must be added where the LIST array is updated)
+        localStorage.setItem('listSaved', JSON.stringify(this.listSaved));
       this.displayAllTodo();
-      e.preventDefault();
-    }
-    e.target.parentNode.children[1].contentEditable = true;
-  }
+    });
 
   deleteTodo(e, i) {
     this.listSaved.splice(i, 1);
@@ -56,7 +57,7 @@ class CollectedList {
   }
 
   displayAllTodo() {
-    this.ul.innerHTML = '';
+    this.element.innerHTML = '';
     this.updateList();
 
     this.listSaved.forEach((todo, i) => {
@@ -126,11 +127,11 @@ export default function addTodo(v) {
     index: newList.addIndex(),
   });
   newList.displayAllTodo();
-}
 
-document.getElementById('clear-btn').addEventListener('click', () => {
-  newList.clearList();
-});
+  document.getElementById('clear-btn').addEventListener('click', () => {
+    newList.clearList();
+  });
+}
 
 window.addEventListener('load', () => {
   newList.displayAllTodo();

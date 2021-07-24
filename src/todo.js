@@ -1,66 +1,74 @@
-let todos = 0;
+export class Duty {
+  constructor(description) {
+    this.description = description;
+    this.completed = false;
+    this.index = 0;
+  }
 
-const defaultTodo = [
-  {
-    description: 'wash dishes',
-    completed: false,
-    id: 0,
-    index: 0,
-  },
-  {
-    description: 'Shopping',
-    completed: false,
-    id: 1,
-    index: 1,
-  },
-  {
-    description: 'Cook',
-    completed: false,
-    id: 2,
-    index: 2,
-  },
-  {
-    description: 'Sleep',
-    completed: false,
-    id: 2,
-    index: 3,
-  },
-];
-
-export function availableStorage(type) {
-  let storage;
-  try {
-    storage = window[type];
-    const x = '__storage_test__';
-    storage.setItem(x, x);
-    storage.removeItem(x);
-    return true;
-  } catch (e) {
-    return (
-      e instanceof DOMException
-      && (e.code === 22
-      || e.code === 1014
-      || e.name === 'QuotaExceededError'
-      || e.name === 'NS_ERROR_DOM_QUOTA_REACHED')
-      && storage
-      && storage.length !== 0
-    );
+  push(arr) {
+    this.index = arr.length;
+    arr.push(this);
+    window.localStorage.setItem('tasklist', JSON.stringify(arr));
+    window.location.reload();
   }
 }
 
-if (availableStorage('localStorage')) {
-  todos = JSON.parse(localStorage.getItem('information'));
-  if (todos === null) {
-    todos = defaultTodo;
-  }
-} else {
-  todos = defaultTodo;
+export function removecompleted(arr) {
+  const todelete = [];
+  arr.forEach((element) => {
+    if (element.completed === true) {
+      todelete.push(element);
+      const filteredArray = arr.filter((item) => !todelete.includes(item));
+      filteredArray.forEach((element) => {
+        element.index = filteredArray.indexOf(element);
+      });
+      window.localStorage.setItem('tasklist', JSON.stringify(filteredArray));
+      window.location.reload();
+    }
+  });
 }
-export function save(variable) {
-  localStorage.setItem('information', JSON.stringify(variable));
+
+export function removeAll(arr) {
+  arr = [];
+  window.localStorage.setItem('tasklist', JSON.stringify(arr));
+  window.location.reload();
 }
-export function load() {
-  const variable = JSON.parse(localStorage.getItem('information'));
-  return variable;
+
+export function edit(arr) {
+  arr.forEach((element) => {
+    const description = document.getElementById(`${element.index}-description`);
+    const dragBtn = document.getElementById(`${element.index}-drag`);
+    const trashBtn = document.getElementById(`${element.index}-trash`);
+    description.addEventListener('click', () => {
+      description.setAttribute('contenteditable', true);
+      description.classList.add('editing');
+      dragBtn.style.display = 'none';
+      trashBtn.style.display = 'block';
+    });
+    document.addEventListener('dblclick', () => {
+      description.setAttribute('contenteditable', false);
+      description.classList.remove('editing');
+      dragBtn.style.display = 'block';
+      trashBtn.style.display = 'none';
+      element.description = description.innerHTML;
+      window.localStorage.setItem('tasklist', JSON.stringify(arr));
+      window.location.reload();
+    });
+  });
 }
-export const todo = todos;
+
+export function removetask(arr) {
+  arr.forEach((element) => {
+    const trashBtn = document.getElementById(`${element.index}-trash`);
+    const todelete = [];
+    trashBtn.addEventListener('click', () => {
+      todelete.push(element);
+      const filteredArray = arr.filter((item) => !todelete.includes(item));
+      filteredArray.forEach((element) => {
+        element.index = filteredArray.indexOf(element);
+      });
+      window.localStorage.setItem('tasklist', JSON.stringify(filteredArray));
+      window.location.reload();
+    });
+  });
+}

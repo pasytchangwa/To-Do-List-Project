@@ -1,7 +1,25 @@
-function updateStatus(e, i) {
-  const listSaved = JSON.parse(localStorage.getItem('listSaved'));
-  listSaved[i].completed = !listSaved[i].completed;
-  e.target.checked = listSaved[i].completed;
-  localStorage.setItem('listSaved', JSON.stringify(listSaved));
+export function status(arr) {
+  arr.forEach((element) => {
+    const checkbox = document.getElementById(`${element.index}-checkbox`);
+    checkbox.addEventListener('change', () => {
+      if (checkbox.checked) {
+        element.completed = true;
+        window.localStorage.setItem('tasklist', JSON.stringify(arr));
+      } else {
+        element.completed = false;
+        window.localStorage.setItem('tasklist', JSON.stringify(arr));
+      }
+    });
+  });
 }
-export default updateStatus;
+
+export function prepopstatus(arr) {
+  arr.forEach((element) => {
+    const checkbox = document.getElementById(`${element.index}-checkbox`);
+    if (element.completed === true) {
+      checkbox.checked = true;
+    } else {
+      checkbox.checked = false;
+    }
+  });
+}

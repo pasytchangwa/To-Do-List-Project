@@ -1,43 +1,33 @@
-let target;
-
-function sorting(source, target) {
-  const listSaved = JSON.parse(localStorage.getItem('listSaved'));
-  if (listSaved.length < 2) return;
-
-  const sourceObj = listSaved[source];
-  const souceIndex = listSaved[source].index;
-  let targetIndex;
-  listSaved.forEach((object) => {
-    if (object.index === Number(target)) {
-      targetIndex = listSaved.indexOf(object);
-    }
+export function dragndrop(arr) {
+  arr.forEach((element) => {
+    const task = document.getElementById(element.index);
+    task.addEventListener('dragstart', (event) => {
+      event.dataTransfer.setData('index', element.index);
+    });
+    task.addEventListener('drop', (event) => {
+      const draggedIndex = event.dataTransfer.getData('index');
+      const dropIndex = element.index;
+      const dragged = arr[draggedIndex];
+      const drop = arr[dropIndex];
+      // swap
+      arr[draggedIndex] = drop;
+      arr[dropIndex] = dragged;
+      // Update indexes
+      dragged.index = dropIndex;
+      drop.index = draggedIndex;
+      task.setAttribute('draggable', false);
+      window.localStorage.setItem('tasklist', JSON.stringify(arr));
+      window.location.reload();
+    });
+    task.addEventListener('dragover', (event) => {
+      event.preventDefault();
+    });
   });
-
-  listSaved[source].index = listSaved[targetIndex].index;
-  listSaved[targetIndex].index = souceIndex;
-
-  listSaved[source] = listSaved[targetIndex];
-  listSaved[targetIndex] = sourceObj;
-  localStorage.setItem('listSaved', JSON.stringify(listSaved));
 }
 
-export default function dragAndDrop(event, index) {
-  const newEvent = event.type;
-  const source = index;
-  switch (newEvent) {
-    case 'dragstart':
-      event.target.classList.add('dragging');
-      break;
-    case 'dragend':
-      event.target.classList.remove('dragging');
-      sorting(source, target);
-      break;
-    case 'dragover':
-      if (event.target.className === 'list-item') {
-        target = event.target.children[2].innerHTML;
-      }
-      break;
-    default:
-      break;
-  }
+export function mousedown(element) {
+  const parent = element.parentElement;
+  element.addEventListener('mousedown', () => {
+    parent.setAttribute('draggable', true);
+  });
 }
