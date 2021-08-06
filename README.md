@@ -2,7 +2,7 @@
 
 # Project online link
 
-[CLICK HERE](https://pasytchangwa.github.io/To-Do-List-Project/dist/) for the online version
+[CLICK HERE](https://pasytchangwa.github.io/To-Do-List-Project/) for the online version
 
 # My To Do List Project
 
